@@ -1,0 +1,106 @@
+﻿body {
+    background-color: #f0f2f5;
+    color: black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.navbar {
+
+    background-color: #2B2B2B; /* Black for the dashboard */
+    color: white;
+}
+.navbar-brand, .navbar-nav .nav-link {
+    color: white !important; /* Ensuring text is white */
+    transition: color 0.2s ease-in-out;
+}
+.navbar-brand:hover, .navbar-nav .nav-link:hover {
+    color: #76b852 !important; /* Lighter green on hover */
+}
+.step-box {
+    background-color: #2a2f33;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+.step-box:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.content {
+    padding: 20px;
+    color: white;
+}
+.step-icon {
+    animation: rotateIcon 2s infinite linear;
+    color: #76b852; /* Aesthetic green for icons */
+}
+@keyframes rotateIcon {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.ai-or-not {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.footer {
+    background-color: #333; /* Ash black for the footer */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    animation: fadeInUp 1s ease-out;
+}
+.info-board {
+    background-color: #2B2B2B; /* Ash black to match the footer */
+    color: white;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    animation: fadeIn 2s ease-in-out;
+}
+.social-icons {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+.social-icons li {
+    margin: 0 10px;
+}
+.social-icons a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.social-icons a:hover {
+    opacity: 0.7;
+}
+.social-icons a.facebook { color: #3b5998; }
+.social-icons a.twitter { color: #1da1f2; }
+.social-icons a.instagram { color: #e1306c; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
