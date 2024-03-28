@@ -12,6 +12,11 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color: #76b852 !important;
+  border-color: #76b852 !important;
+}
+
 html {
   position: relative;
   min-height: 100%;

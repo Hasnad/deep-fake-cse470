@@ -1,0 +1,27 @@
+﻿@model DeepfakeWeb.Models.JsonModel.ImageAnalysisModel
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Image Analysis</h2>
+        <p><strong>Success:</strong> <span id="success">@Model.Success</span></p>
+        <p><strong>Message:</strong> <span id="message">@Model.Message</span></p>
+        <h3>Confidence</h3>
+        <div class="progress">
+            <div id="real-progress" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            <div id="fake-progress" class="progress-bar bg-danger" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h3>Face With Mask</h3>
+        <img id="faceWithMask" src="@Model.FaceWithMask" alt="Face With Mask">
+    </div>
+</div>
+
+<script>
+    var confidence = @Html.Raw(Json.Serialize(Model.Confidence));
+    var realConfidence = confidence["real"] * 100;
+    var fakeConfidence = confidence["fake"] * 100;
+
+    document.getElementById('real-progress').style.width = realConfidence + '%';
+    document.getElementById('real-progress').setAttribute('aria-valuenow', realConfidence);
+    document.getElementById('fake-progress').style.width = fakeConfidence + '%';
+    document.getElementById('fake-progress').setAttribute('aria-valuenow', fakeConfidence);
+</script>
