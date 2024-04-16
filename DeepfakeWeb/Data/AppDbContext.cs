@@ -1,4 +1,5 @@
 ﻿using DeepfakeWeb.Models;
+using DeepfakeWeb.Models.Home;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -13,6 +14,8 @@ public class AppDbContext : IdentityDbContext<AppUser>
     }
 
     public DbSet<ImageData> ImageData { get; set; }
+
+    public DbSet<Feedback> Feedbacks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

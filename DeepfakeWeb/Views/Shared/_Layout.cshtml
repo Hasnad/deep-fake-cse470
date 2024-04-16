@@ -61,6 +61,18 @@
                             <a class="nav-link text-white" asp-area="" asp-controller="Upload" asp-action="History">History</a>
                         </li>
                     }
+                    @{
+                        if (user != null)
+                        {
+                            var userData = DbContext.Users.FirstOrDefault(p => p.Id == user.Id);
+                            if (userData != null && userData.IsAdmin())
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="GetAllFeedback">Feedbacks</a>
+                                </li>
+                            }
+                        }
+                    }
                 </ul>
                 <partial name="_LoginPartial"/>
             </div>

@@ -16,4 +16,9 @@ public class AppUser : IdentityUser
     {
         return SubscriptionActive && SubscriptionExpirationDate > DateTime.UtcNow;
     }
+
+    public bool IsAdmin()
+    {
+        return Email == "rehal@gmail.com";
+    }
 }

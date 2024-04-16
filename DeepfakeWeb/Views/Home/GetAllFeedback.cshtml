@@ -1,0 +1,77 @@
+﻿@model List<DeepfakeWeb.Models.Home.Feedback>
+
+<div class="container">
+    @foreach (var feedback in Model)
+    {
+            <table class="table table-bordered">
+        <div class="card">
+
+                <tr>
+                    <td style="width: 20%;">
+                        <div class="row">
+                            <div class="col-md-5 d-flex justify-content-end">
+                                <img src="data:image/png;base64,@feedback.ImageData.OriginalImageBase64" class="img-fluid rounded-start fixed-size" alt="Original Image">
+                            </div>
+                            <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="col-md-5 d-flex justify-content-start">
+                                <img src="data:image/png;base64,@feedback.ImageData.MaskImageBase64" class="img-fluid rounded-start fixed-size" alt="Mask Image">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <p class="small">User ID: @feedback.AppUserId</p>
+                                <p class="small">Email: @feedback.AppUserEmail</p>
+                                <p class="small">Is Real: @(feedback.ImageData.IsReal ? "Yes" : "No")</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="small">Image ID: @feedback.ImageId</p>
+                            </div>
+                            <div class="mt-auto">
+                                Likeness %:
+                                <div class="progress">
+                                    <div class="progress-bar @(feedback.ImageData.IsReal ? "bg-success" : "bg-danger")" role="progressbar" style="width: @(feedback.ImageData.Confidence * 100)%;" aria-valuenow="@(feedback.ImageData.Confidence * 100)" aria-valuemin="0" aria-valuemax="100">@((feedback.ImageData.Confidence * 100).ToString("F"))%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 30%;">
+                        @foreach (var source in feedback.ImageData.GenerationSourcesLikeness)
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="small">Source: @source.Source</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: @(source.Likeness * 100)%;" aria-valuenow="@(source.Likeness * 100)" aria-valuemin="0" aria-valuemax="100">@((source.Likeness * 100).ToString("F"))%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 class="card-title">Title</h5>
+                    </td>
+                    <td colspan="2">
+                        <h5 class="card-title" style="word-wrap: break-word; max-width: 850px;">@feedback.Title</h5>
+                    </td>
+                </tr>
+        <tr>
+            <td>
+                <p class="card-text">
+                    <strong>Description:</strong>
+                </p>
+            </td>
+            <td colspan="2">
+                <p class="card-text" style="word-wrap: break-word; max-width: 850px;">@feedback.Description</p>
+            </td>
+        </tr>
+        </div>
+        
+            </table>
+    }
+</div>

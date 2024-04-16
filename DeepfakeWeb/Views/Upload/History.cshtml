@@ -4,7 +4,7 @@
     <div class="row">
         @foreach (var item in Model)
         {
-            <div class="col-md-3">
+            <div class="col-md-3 mb-3">
                 <div class="card">
                     <img class="card-img-top fixed-size" src="data:image/png;base64,@item.OriginalImageBase64" alt="Card image cap">
                     <div class="card-body">
@@ -14,6 +14,7 @@
                         </div>
                         <div>
                             <a asp-action="ViewAnalysis" asp-route-id="@item.Id" asp-controller="Upload" class="btn btn-primary mt-2 font">View Analysis</a>
+                            <a asp-action="GetFeedBack"  asp-route-id="@item.Id" asp-controller="Home" class="btn btn-primary mt-2"><i class="fa fa-flag" aria-hidden="true"></i></a>
                             <a asp-action="Delete" asp-route-id="@item.Id" asp-controller="Upload" class="btn btn-danger mt-2"><i class="fa fa-trash" aria-hidden="true"></i></a>
                         </div>
                     </div>
