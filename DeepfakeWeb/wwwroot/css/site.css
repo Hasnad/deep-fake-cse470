@@ -25,3 +25,18 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.nav-link:hover {
+  color: #76b852 !important;
+}
+.fixed-size {
+  width: 100%; /* or any other value */
+  height: 200px; /* or any other value */
+  object-fit: scale-down; /* this will ensure that the image covers the whole area without distortion */
+}
+
+.fixed-size-big {
+  width: 100%; /* or any other value */
+  height: 400px; /* or any other value */
+  object-fit: scale-down; /* this will ensure that the image covers the whole area without distortion */
+}

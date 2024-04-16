@@ -1,27 +1,69 @@
-﻿@model DeepfakeWeb.Models.JsonModel.ImageAnalysisModel
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using DeepfakeWeb.Data
+@model DeepfakeWeb.Data.ImageData
+@inject UserManager<AppUser> UserManager
+@inject AppDbContext DbContext
 
-<div class="row">
-    <div class="col-md-6">
-        <h2>Image Analysis</h2>
-        <p><strong>Success:</strong> <span id="success">@Model.Success</span></p>
-        <p><strong>Message:</strong> <span id="message">@Model.Message</span></p>
-        <h3>Confidence</h3>
-        <div class="progress">
-            <div id="real-progress" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            <div id="fake-progress" class="progress-bar bg-danger" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-md-5">
+            <div class="card">
+                <img class="card-img-top fixed-size-big mt-5" src="data:image/png;base64,@Model.OriginalImageBase64" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@(Model.IsReal ? "Real" : "Fake")</h5>
+                    <div class="progress">
+                        <div class="progress-bar @(Model.IsReal ? "bg-success" : "bg-danger")" role="progressbar" style="width: @(Model.Confidence * 100)%;" aria-valuenow="@(Model.Confidence * 100)" aria-valuemin="0" aria-valuemax="100">@((Model.Confidence * 100).ToString("F"))%</div>
+                    </div>
+                    <div class="text-center">
+                        <p></p>
+                        @{
+                            var user = await UserManager.GetUserAsync(User);
+                            if (user != null)
+                            {
+                                var userData = DbContext.Users.FirstOrDefault(p => p.Id == user.Id);
+                                if (userData != null && !userData.HasSubscription())
+                                {
+                                    <a onclick="goToPurchasePage()" class="btn btn-primary mt-2 font">Show Detailed Breakdown</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="ViewAnalysis" asp-route-id="@Model.Id" asp-controller="Upload" class="btn btn-primary mt-2 font">Show Detailed Breakdown</a>
+                                }
+                            }
+                            else
+                            {
+                                <a asp-action="ViewAnalysis" asp-route-id="@Model.Id" asp-controller="Upload" class="btn btn-primary mt-2 font">Show Detailed Breakdown</a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3>Face With Mask</h3>
-        <img id="faceWithMask" src="@Model.FaceWithMask" alt="Face With Mask">
     </div>
 </div>
 
-<script>
-    var confidence = @Html.Raw(Json.Serialize(Model.Confidence));
-    var realConfidence = confidence["real"] * 100;
-    var fakeConfidence = confidence["fake"] * 100;
-
-    document.getElementById('real-progress').style.width = realConfidence + '%';
-    document.getElementById('real-progress').setAttribute('aria-valuenow', realConfidence);
-    document.getElementById('fake-progress').style.width = fakeConfidence + '%';
-    document.getElementById('fake-progress').setAttribute('aria-valuenow', fakeConfidence);
-</script>
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    function goToPurchasePage(){
+        Swal.fire({
+          title: "Subscription Required!",
+          text: "You need an active subscription to access this feature!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#76b852",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Subscribe!",
+        }).then((result) => {
+          if (result.isConfirmed) 
+          {            
+              window.location = "/Home/Pricing/"
+          }
+        });
+    }
+        
+    </script>
+}
