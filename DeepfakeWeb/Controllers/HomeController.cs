@@ -76,12 +76,6 @@ public class HomeController : Controller
             TempData["error"] = "Feedback not found.";
             return RedirectToAction("History", "Upload");
         }
-        
-        if (!ModelState.IsValid)
-        {
-            TempData["error"] = "Title or Description is invalid.";
-            return RedirectToAction("GetFeedBack", new{ id = feedback.ImageId });
-        }
 
         if (string.IsNullOrEmpty(feedback.Title) || string.IsNullOrEmpty(feedback.Description))
         {
@@ -97,6 +91,7 @@ public class HomeController : Controller
         }
 
         feedback.AppUserId = user.Id;
+        feedback.AppUserEmail = user.Email ?? "name@email.com";
         _dbContext.Feedbacks.Add(feedback);
         await _dbContext.SaveChangesAsync();
         TempData["success"] = "Feedback submitted successfully.";
@@ -118,12 +113,6 @@ public class HomeController : Controller
         {
             TempData["error"] = "You must be logged in to view feedback.";
             return RedirectToPage("/Account/Login", new { area = "Identity" });
-        }
-
-        if (!appUser.IsAdmin())
-        {
-            TempData["error"] = "You must be an admin to view feedback all feedbacks.";
-            return RedirectToAction("Index", "Home");
         }
 
         var image = await _dbContext.ImageData.FirstOrDefaultAsync(i => i.Id == id);
@@ -149,14 +138,26 @@ public class HomeController : Controller
 
     public async Task<IActionResult> GetAllFeedback()
     {
+        var appUser = await _userManager.GetUserAsync(User);
+
+        if (appUser == null)
+        {
+            TempData["error"] = "You must be logged in to view feedback.";
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+        }
+
+        
+        if (!appUser.IsAdmin())
+        {
+            TempData["error"] = "You must be an admin to view feedback all feedbacks.";
+            return RedirectToAction("Index", "Home");
+        }
         var feedbacks = await _dbContext.Feedbacks.ToListAsync();
         var imagesIds = feedbacks.Select(f => f.ImageId).ToList();
         var images = await _dbContext.ImageData.Where(i => imagesIds.Contains(i.Id)).ToListAsync();
-        var userEmail = (await _userManager.GetUserAsync(User))?.Email ?? "name@email.com";
         foreach (var feedback in feedbacks)
         {
             feedback.ImageData = images.First(i => i.Id == feedback.ImageId);
-            feedback.AppUserEmail = userEmail;
         }
 
         return View(feedbacks);

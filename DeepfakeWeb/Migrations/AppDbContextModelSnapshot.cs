@@ -135,6 +135,10 @@ namespace DeepfakeWeb.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("AppUserEmail")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("AppUserId")
                         .IsRequired()
                         .HasColumnType("TEXT");

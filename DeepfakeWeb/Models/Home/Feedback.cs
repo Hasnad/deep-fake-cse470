@@ -16,7 +16,6 @@ public class Feedback
     [NotMapped]
     public ImageData ImageData { get; set; }
     
-    [NotMapped, Display(Name = "Email")]
     public string AppUserEmail { get; set; }
     
 }
